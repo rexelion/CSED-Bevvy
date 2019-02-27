@@ -1,11 +1,12 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class CSED_CW {
 
     public void storeDataInCSV(String d, String a) {
 
         try{
-            FileWriter fileWriter = new FileWriter("storage.csv");
+            FileWriter fileWriter = new FileWriter("storage.csv", true);
             fileWriter.append(d);
             fileWriter.append("\n");
             fileWriter.append(a);
@@ -26,7 +27,7 @@ public class CSED_CW {
         try {
             //Keep on accepting input from the command-line
             while(true) {
-                System.out.println("(A)dd data or (R)ead data");
+                System.out.println("(A)dd data or (V)iew data");
                 String command = reader.readLine();
                 
                 //Close on an End-of-file (EOF) (Ctrl-D on the terminal)
@@ -37,12 +38,36 @@ public class CSED_CW {
                 }
                 
                 //Otherwise, (attempt to) process the character
-                else if (command.charAt(0) == 'A' /* && command.length == 1*/){
-                    System.out.println("Please enter the date of consumption: ");
+                else if (command.charAt(0) == 'A' && command.length() == 1){
+                    //need to validate user inputs
+                    System.out.println("Please enter the date of consumption (DD/MM/YY): ");
                     String date = reader.readLine();
                     System.out.println("Please enter the amount consumed: ");
                     String amount = reader.readLine();
                     csed.storeDataInCSV(date, amount);
+                }
+                else if (command.charAt(0) == 'V' && command.length() == 1){
+                    System.out.println("Please enter the date you want to view (DD/MM/YY): ");
+                    Boolean dateFound = false;
+                    //need to validate viewDate
+                    String viewDate = reader.readLine();
+                    try{
+                        Scanner inputStream = new Scanner(/*file*/new File("storage.csv"));
+                        while (inputStream.hasNextLine() && dateFound == false){
+                            String data = inputStream.nextLine();
+                            if (data.equals(viewDate)){
+                                System.out.println(inputStream.nextLine());
+                                dateFound = true;
+                            }
+                        }
+                        if (dateFound == false){
+                            System.out.println("No data found under this date");
+                        }
+                        inputStream.close();
+                    }catch(FileNotFoundException e){
+                        //e.printStackException();
+                        System.out.println("File not found error");
+                    }
                 }
                 else{
                     System.out.println("Unexpected input");
