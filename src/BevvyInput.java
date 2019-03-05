@@ -9,6 +9,7 @@ public class BevvyInput {
 	
 	public String readCommand() {
 		String command = "";
+		System.out.println("(A)dd data or (R)ead data");
 		try {
 			command = inputReader.readLine();
 		} catch (IOException io) {

@@ -20,6 +20,8 @@ public class BevvyClass {
 				System.out.println(entry.getDate() + ": " + entry.getAmount());
 			}
 			break;
+		default:
+			System.out.println("Unknown command");
 		}
 	}
 	
