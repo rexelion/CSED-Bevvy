@@ -17,4 +17,19 @@ public class BevvyInput {
 		}
 		return command;
 	}
+	
+	public DataEntry readEntry() {
+		DataEntry newEntry = null;
+		try {
+			System.out.println("Please enter the date of consumption: ");
+	        String date = inputReader.readLine();
+	        System.out.println("Please enter the amount consumed: ");
+	        String amount = inputReader.readLine();
+	        newEntry = new DataEntry(date, amount);
+		} catch (IOException io) {
+			System.out.println("Error reading data entry");
+			System.out.println(io);
+		}
+		return newEntry;
+	}
 }
