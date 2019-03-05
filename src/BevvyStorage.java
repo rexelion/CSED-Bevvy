@@ -16,7 +16,7 @@ public class BevvyStorage {
 	
 	public void addEntry(DataEntry newEntry) {
 		try {
-			writer = new BufferedWriter(new FileWriter(storageFile));
+			writer = new BufferedWriter(new FileWriter(storageFile, true));
 			writer.write(newEntry.getDate() + ",");
 			writer.write(newEntry.getAmount() + ",\n");
 		} catch (IOException io) {
