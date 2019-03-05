@@ -6,4 +6,27 @@ public class BevvyClass {
 		storage = new BevvyStorage();
 		input = new BevvyInput();
 	}
+	
+	private void processCommand(String command) {
+		switch (command.charAt(0)) {
+		case 'A':
+			DataEntry newEntry = input.readEntry();
+			if (newEntry != null) {
+				storage.addEntry(newEntry);
+			}
+			break;
+		case 'R':
+			for (DataEntry entry: storage.readStorage()) {
+				System.out.println(entry.getDate() + ": " + entry.getAmount());
+			}
+			break;
+		}
+	}
+	
+	public void run() {
+		while (true) {
+			String command = input.readCommand();
+			processCommand(command);
+		}
+	}
 }
