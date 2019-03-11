@@ -2,6 +2,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
 
 public class BevvyInput {
 	private BufferedReader inputReader;
@@ -24,7 +25,9 @@ public class BevvyInput {
 	public Boolean isNumInputValid(String num){
 		try{
 			float floatTest = Float.parseFloat(num);
-			if (floatTest > 0){
+			DecimalFormat df = new DecimalFormat();
+			df.setMaximumFractionDigits(1);
+			if ((floatTest > 0) && (df.format(floatTest).equals(num))){
 				return true;
 			}
 			else{
