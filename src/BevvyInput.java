@@ -50,33 +50,49 @@ public class BevvyInput {
 		return command;
 	}
 	
-	public DataEntry readEntry() {
-		DataEntry newEntry = null;
+	private String readTimestamp() {
+		String timestamp = "";
 		try {
 			System.out.println("Please enter the date and the time of consumption: ");
-	        String dateTime = inputReader.readLine();
+	        timestamp = inputReader.readLine();
 	        //validates date input
-	        Boolean isValid = isDateValid(dateTime);
+	        Boolean isValid = isDateValid(timestamp);
 	        while(!isValid){
                 System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY HH/MM): ");
-                dateTime = inputReader.readLine();
-                isValid = isDateValid(dateTime);
+                timestamp = inputReader.readLine();
+                isValid = isDateValid(timestamp);
             }
+		} catch (IOException io) {
+			
+		}
+		
+		return timestamp;
+	}
+	
+	private String readAmount() {
+		String amount = "";
+		try {
 	        System.out.println("Please enter the amount consumed: ");
-	        String amount = inputReader.readLine();
+	        amount = inputReader.readLine();
 	        //validates alcohol input
-	        isValid = isNumInputValid(amount);
+	        Boolean isValid = isNumInputValid(amount);
             while(!isValid){
                 System.out.println("Invalid, please enter the amount consumed: ");
                 amount = inputReader.readLine();
                 isValid = isNumInputValid(amount);
             }
-            String dateTimeArray[] = dateTime.split(" ");
-	        newEntry = new DataEntry(dateTimeArray[0], dateTimeArray[1], amount);
 		} catch (IOException io) {
 			System.out.println("Error reading data entry");
 			System.out.println(io);
 		}
+		return amount;
+	}
+	
+	public DataEntry readEntry() {
+		String timestamp = readTimestamp();
+		String amount = readAmount();
+		String timeDateArray[] = timestamp.split(" ");
+		DataEntry newEntry = new DataEntry(timeDateArray[0], timeDateArray[1], amount);
 		return newEntry;
 	}
 }
