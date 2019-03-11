@@ -23,8 +23,8 @@ public class BevvyInput {
 
 	public Boolean isNumInputValid(String num){
 		try{
-			int intTest = Integer.parseInt(num);
-			if (intTest > 0){
+			float floatTest = Float.parseFloat(num);
+			if (floatTest > 0){
 				return true;
 			}
 			else{
