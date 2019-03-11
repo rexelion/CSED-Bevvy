@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class BevvyInput {
 	private BufferedReader inputReader;
-	final static String dateFormat = "dd/MM/yyyy H:mm";
+	final static String dateTimeFormat = "dd/MM/yyyy H:mm";
 	
 	public BevvyInput() {
 		inputReader = new BufferedReader(new InputStreamReader(System.in));
@@ -13,7 +13,7 @@ public class BevvyInput {
 	
 	public Boolean isDateValid(String dateString){
 		try{
-			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
+			SimpleDateFormat sdf = new SimpleDateFormat(dateTimeFormat);
 			if(sdf.format(sdf.parse(dateString)).equals(dateString)){
 				return true;
 			}
@@ -50,14 +50,14 @@ public class BevvyInput {
 	public DataEntry readEntry() {
 		DataEntry newEntry = null;
 		try {
-			System.out.println("Please enter the date of consumption: ");
-	        String date = inputReader.readLine();
+			System.out.println("Please enter the date and the time of consumption: ");
+	        String dateTime = inputReader.readLine();
 	        //validates date input
-	        Boolean isValid = isDateValid(date);
+	        Boolean isValid = isDateValid(dateTime);
 	        while(!isValid){
-                System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY): ");
-                date = inputReader.readLine();
-                isValid = isDateValid(date);
+                System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY HH/MM): ");
+                dateTime = inputReader.readLine();
+                isValid = isDateValid(dateTime);
             }
 	        System.out.println("Please enter the amount consumed: ");
 	        String amount = inputReader.readLine();
@@ -68,7 +68,7 @@ public class BevvyInput {
                 amount = inputReader.readLine();
                 isValid = isNumInputValid(amount);
             }
-            String dateTimeArray[] = date.split(" ");
+            String dateTimeArray[] = dateTime.split(" ");
 	        newEntry = new DataEntry(dateTimeArray[0], dateTimeArray[1], amount);
 		} catch (IOException io) {
 			System.out.println("Error reading data entry");
