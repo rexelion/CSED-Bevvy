@@ -18,6 +18,7 @@ public class BevvyStorage {
 		try {
 			writer = new BufferedWriter(new FileWriter(storageFile, true));
 			writer.write(newEntry.getDate() + ",");
+			writer.write(newEntry.getTime() + ",");
 			writer.write(newEntry.getAmount() + ",\n");
 		} catch (IOException io) {
 			System.out.println("Error writing new entry");
@@ -34,7 +35,7 @@ public class BevvyStorage {
 	
 	private DataEntry fromString(String line) {
 		String elements[] = line.split(",");
-		DataEntry newEntry = new DataEntry(elements[0], elements[1]);
+		DataEntry newEntry = new DataEntry(elements[0], elements[1], elements[2]);
 		return newEntry;
 	}
 	

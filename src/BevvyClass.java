@@ -17,7 +17,7 @@ public class BevvyClass {
 			break;
 		case 'R':
 			for (DataEntry entry: storage.readStorage()) {
-				System.out.println(entry.getDate() + ": " + entry.getAmount());
+				System.out.println(entry.getDate() + " " + entry.getTime() + ": " + entry.getAmount());
 			}
 			break;
 		default:

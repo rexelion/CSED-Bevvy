@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class BevvyInput {
 	private BufferedReader inputReader;
-	final static String dateTimeFormat = "dd/mm/yyyy H:mm";
+	final static String dateFormat = "dd/mm/yyyy H:mm";
 	
 	public BevvyInput() {
 		inputReader = new BufferedReader(new InputStreamReader(System.in));
@@ -13,7 +13,7 @@ public class BevvyInput {
 	
 	public Boolean isDateValid(String dateString){
 		try{
-			SimpleDateFormat sdf = new SimpleDateFormat(dateTimeFormat);
+			SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
 			if(sdf.format(sdf.parse(dateString)).equals(dateString)){
 				return true;
 			}
@@ -55,7 +55,7 @@ public class BevvyInput {
 	        //validates date input
 	        Boolean isValid = isDateValid(date);
 	        while(!isValid){
-                System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY HH:MM)");
+                System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY): ");
                 date = inputReader.readLine();
                 isValid = isDateValid(date);
             }
@@ -68,7 +68,8 @@ public class BevvyInput {
                 amount = inputReader.readLine();
                 isValid = isNumInputValid(amount);
             }
-	        newEntry = new DataEntry(date, amount);
+            String dateTimeArray[] = date.split(" ");
+	        newEntry = new DataEntry(dateTimeArray[0], dateTimeArray[1], amount);
 		} catch (IOException io) {
 			System.out.println("Error reading data entry");
 			System.out.println(io);
