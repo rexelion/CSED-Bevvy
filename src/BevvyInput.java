@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 
 public class BevvyInput {
 	private BufferedReader inputReader;
-	final static String dateTimeFormat = "dd/MM/yyyy H:mm";
+	final static String dateTimeFormat = "dd/MM/yyyy HH:mm";
 	
 	public BevvyInput() {
 		inputReader = new BufferedReader(new InputStreamReader(System.in));
