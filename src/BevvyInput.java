@@ -79,7 +79,7 @@ public class BevvyInput {
 	
 	private int readVolume() {
 		String volume = "";
-		System.out.println("Please enter the volume of beverage consumed: ");
+		System.out.println("Please enter the volume of beverage consumed (integer ml): ");
 		int volumeInt = 0;
 		try {
 			volume = inputReader.readLine();
@@ -103,7 +103,7 @@ public class BevvyInput {
 	
 	private int readPercentage() {
 		String percentage = "";
-		System.out.println("Please enter the alcohol concentration: ");
+		System.out.println("Please enter the alcohol concentration (integer): ");
 		int percentageInt = 0;
 		try {
 			percentage = inputReader.readLine();
@@ -127,12 +127,13 @@ public class BevvyInput {
 	
 	private String readAmountUnits() {
 		String amount = "";
+		System.out.println("Please enter the amount consued (units)");
 		try {
 			amount = inputReader.readLine();
 	        //validates alcohol input
 	        Boolean isValid = isNumInputValid(amount);
 	        while(!isValid){
-	            System.out.println("Invalid, please enter the amount consumed: ");
+	            System.out.println("Invalid, please enter the amount consumed (units): ");
 	            amount = inputReader.readLine();
 	            isValid = isNumInputValid(amount);
 	        }
@@ -143,24 +144,34 @@ public class BevvyInput {
 	private String readAmountVolume() {
 		int volume = readVolume();
 		int percentage = readPercentage();
-		float units = volume*percentage/10;
+		float units = (float)(volume*percentage)/1000;
 		DecimalFormat df = new DecimalFormat();
 		df.setMaximumFractionDigits(1);
 		return df.format(units);
 	}
 	
 	private String readAmount() {
+		String option = "";
 		String amount = "";
+		boolean validOption = false;
 		try {
-	        System.out.println("Please enter the amount consumed: ");
-	        amount = inputReader.readLine();
-	        //validates alcohol input
-	        Boolean isValid = isNumInputValid(amount);
-            while(!isValid){
-                System.out.println("Invalid, please enter the amount consumed: ");
-                amount = inputReader.readLine();
-                isValid = isNumInputValid(amount);
-            }
+	        while (!validOption) {
+	        	System.out.println("Please enter the amount consumed: ");
+		        System.out.println("(U)nits or (V)olume and percentage: ");
+		        option = inputReader.readLine();
+	        	switch (option.charAt(0)) {
+		        	case 'U':
+		        		amount = readAmountUnits();
+		        		validOption = true;
+		        		break;
+		        	case 'V':
+		        		amount = readAmountVolume();
+		        		validOption = true;
+		        		break;
+		        	default:
+		        		System.out.println("Incorrect option, (V)olume or (U)nits");
+		        }
+	        }
 		} catch (IOException io) {
 			System.out.println("Error reading data entry");
 			System.out.println(io);
