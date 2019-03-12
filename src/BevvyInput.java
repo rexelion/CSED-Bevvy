@@ -37,7 +37,15 @@ public class BevvyInput {
 			return false;
 		}
 	}
-
+	
+	private Boolean isInteger(String num) {
+		try {
+			int number = Integer.parseInt(num);
+			return true;
+		} catch (NumberFormatException e) {}
+		return false;
+	}
+	
 	public String readCommand() {
 		String command = "";
 		System.out.println("(A)dd data or (R)ead data");
@@ -67,6 +75,78 @@ public class BevvyInput {
 		}
 		
 		return timestamp;
+	}
+	
+	private int readVolume() {
+		String volume = "";
+		System.out.println("Please enter the volume of beverage consumed: ");
+		int volumeInt = 0;
+		try {
+			volume = inputReader.readLine();
+			boolean isValid = isInteger(volume);
+			if (isValid) {
+				volumeInt = Integer.parseInt(volume);
+				isValid = volumeInt > 0;
+			}
+			while (!isValid) {
+				System.out.println("Incorrect volume, please enter positive integer: ");
+				volume = inputReader.readLine();
+				isValid = isInteger(volume);
+				if (isValid) {
+					volumeInt = Integer.parseInt(volume);
+					isValid = volumeInt > 0;
+				}
+			}
+		} catch (IOException io) {}
+		return volumeInt;
+	}
+	
+	private int readPercentage() {
+		String percentage = "";
+		System.out.println("Please enter the alcohol concentration: ");
+		int percentageInt = 0;
+		try {
+			percentage = inputReader.readLine();
+			boolean isValid = isInteger(percentage);
+			if (isValid) {
+				percentageInt = Integer.parseInt(percentage);
+				isValid = percentageInt > 0;
+			}
+			while (!isValid) {
+				System.out.println("Incorrect volume, please enter positive integer: ");
+				percentage = inputReader.readLine();
+				isValid = isInteger(percentage);
+				if (isValid) {
+					percentageInt = Integer.parseInt(percentage);
+					isValid = (percentageInt > 0) && (percentageInt <= 100);
+				}
+			}
+		} catch (IOException io) {}
+		return percentageInt;
+	}
+	
+	private String readAmountUnits() {
+		String amount = "";
+		try {
+			amount = inputReader.readLine();
+	        //validates alcohol input
+	        Boolean isValid = isNumInputValid(amount);
+	        while(!isValid){
+	            System.out.println("Invalid, please enter the amount consumed: ");
+	            amount = inputReader.readLine();
+	            isValid = isNumInputValid(amount);
+	        }
+		} catch (IOException io) {}
+		return amount;
+	}
+	
+	private String readAmountVolume() {
+		int volume = readVolume();
+		int percentage = readPercentage();
+		float units = volume*percentage/10;
+		DecimalFormat df = new DecimalFormat();
+		df.setMaximumFractionDigits(1);
+		return df.format(units);
 	}
 	
 	private String readAmount() {
