@@ -9,7 +9,7 @@ public class DataEntryDateComparator implements Comparator<DataEntry> {
         Date date1 = null;
         Date date2 = null;
         try {
-            date1 = sdf.parse(a.getDate()):
+            date1 = sdf.parse(a.getDate());
             date2 = sdf.parse(b.getDate());
         }
         catch (ParseException e) {
