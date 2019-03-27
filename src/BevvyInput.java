@@ -2,6 +2,7 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.text.DecimalFormat;
 
 public class BevvyInput {
@@ -185,5 +186,24 @@ public class BevvyInput {
 		String timeDateArray[] = timestamp.split(" ");
 		DataEntry newEntry = new DataEntry(timeDateArray[0], timeDateArray[1], amount);
 		return newEntry;
+	}
+	
+	public String readOption(String possibleOptions, String prompt) {
+		String result = "";
+		System.out.println(prompt);
+		boolean validOption = false;
+		while (true) {
+			try {
+				result = inputReader.readLine();
+			} catch (IOException io) {}
+			validOption = possibleOptions.contains(result);
+			if (validOption) {
+				break;
+			} else {
+				System.out.println("Incorrect option");
+				System.out.println(prompt);
+			}
+		}
+		return result;
 	}
 }
