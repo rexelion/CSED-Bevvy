@@ -154,29 +154,17 @@ public class BevvyInput {
 	private String readAmount() {
 		String option = "";
 		String amount = "";
-		boolean validOption = false;
-		try {
-	        while (!validOption) {
-	        	System.out.println("Please enter the amount consumed: ");
-		        System.out.println("(U)nits or (V)olume and percentage: ");
-		        option = inputReader.readLine();
-	        	switch (option.charAt(0)) {
-		        	case 'U':
-		        		amount = readAmountUnits();
-		        		validOption = true;
-		        		break;
-		        	case 'V':
-		        		amount = readAmountVolume();
-		        		validOption = true;
-		        		break;
-		        	default:
-		        		System.out.println("Incorrect option, (V)olume or (U)nits");
-		        }
-	        }
-		} catch (IOException io) {
-			System.out.println("Error reading data entry");
-			System.out.println(io);
-		}
+		option = readOption("UV", "Please enter the amount consumed: \n(U)nits or (V)olume and percentage: ");
+    	switch (option.charAt(0)) {
+        	case 'U':
+        		amount = readAmountUnits();
+        		break;
+        	case 'V':
+        		amount = readAmountVolume();
+        		break;
+        	default:
+        		System.out.println("Incorrect option, (V)olume or (U)nits");
+    	}
 		return amount;
 	}
 	
