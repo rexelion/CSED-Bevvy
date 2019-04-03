@@ -27,6 +27,10 @@ public class Goal {
 		this.totalAmount = totalAmount; 
 	}
 	
+	public boolean dateInGoal(Date date) {
+		return (startDate.before(date)) && (endDate.after(date));
+	}
+	
 	public Date getStartDateTime() {
 		return startDate;
 	}
@@ -50,7 +54,6 @@ public class Goal {
 	public String getEndTime() {
 		return format.format(endDate).split(" ")[1];
 	}
-	
 	
 	public String getTotalAmount() {
 		return totalAmount;

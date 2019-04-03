@@ -1,3 +1,4 @@
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -42,14 +43,33 @@ public class BevvyClass {
 		case 'V':
 			List<Goal> goals = storage.readGoalStorage();
 			for (Goal goal: goals) {
+				String total = countConsumption(goal);
 				System.out.print(goal.getStartDate() + " " + goal.getStartTime() + " to ");
 				System.out.print(goal.getEndDate() + " " + goal.getEndTime() + ": ");
-				System.out.println(goal.getTotalAmount() + " units");
+				System.out.println(total + "/" + goal.getTotalAmount() + " units");
 			}
 			break;
 		default:
 			System.out.println("Unknown command");
 		}
+	}
+	
+	private String countConsumption(Goal goal) {
+		String total = "";
+		double totalD = 0;
+		List<DataEntry> entries = storage.readStorage();
+		for (DataEntry entry: entries) {
+			if (goal.dateInGoal(entry.getDateTime())) {
+				try {
+					double amount = Double.parseDouble(entry.getAmount());
+					totalD += amount;
+				} catch (NumberFormatException e) {}
+			}
+		}
+		DecimalFormat df = new DecimalFormat();
+		df.setMaximumFractionDigits(1);
+		total = df.format(totalD);
+		return total;
 	}
 	
 	public void run() {
