@@ -11,4 +11,16 @@ public class Goal {
 		this.endDate = endDate;
 		this.totalAmount = totalAmount;
 	}
+	
+	public Date getStartDate() {
+		return startDate;
+	}
+	
+	public Date getEndDate() {
+		return endDate;
+	}
+	
+	public String getTotalAmount() {
+		return totalAmount;
+	}
 }
