@@ -3,6 +3,7 @@ import java.text.ParseException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.text.DecimalFormat;
 
 public class BevvyInput {
@@ -13,14 +14,15 @@ public class BevvyInput {
 		inputReader = new BufferedReader(new InputStreamReader(System.in));
 	}
 	
-	public Boolean isDateValid(String dateString){
+	public Date toDate(String dateString){
 		try{
 			SimpleDateFormat sdf = new SimpleDateFormat(dateTimeFormat);
-			if(sdf.format(sdf.parse(dateString)).equals(dateString)){
-				return true;
+			Date date = sdf.parse(dateString);
+			if(sdf.format(date).equals(dateString)){
+				return date;
 			}
 		}catch(ParseException pe){}
-		return false;
+		return null;
 	}
 
 	public Boolean isNumInputValid(String num){
@@ -59,23 +61,25 @@ public class BevvyInput {
 		return command;
 	}
 	
-	private String readTimestamp() {
+	private Date readTimestamp() {
 		String timestamp = "";
+		Date date = null;
 		try {
 			System.out.println("Please enter the date and the time of consumption: ");
 	        timestamp = inputReader.readLine();
 	        //validates date input
-	        Boolean isValid = isDateValid(timestamp);
+	        date = toDate(timestamp);
+	        Boolean isValid = date != null;
 	        while(!isValid){
                 System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY HH/MM): ");
                 timestamp = inputReader.readLine();
-                isValid = isDateValid(timestamp);
+                isValid = date != null;
             }
 		} catch (IOException io) {
 			
 		}
 		
-		return timestamp;
+		return date;
 	}
 	
 	private int readVolume() {
@@ -169,10 +173,9 @@ public class BevvyInput {
 	}
 	
 	public DataEntry readEntry() {
-		String timestamp = readTimestamp();
+		Date date = readTimestamp();
 		String amount = readAmount();
-		String timeDateArray[] = timestamp.split(" ");
-		DataEntry newEntry = new DataEntry(timeDateArray[0], timeDateArray[1], amount);
+		DataEntry newEntry = new DataEntry(date, amount);
 		return newEntry;
 	}
 	
