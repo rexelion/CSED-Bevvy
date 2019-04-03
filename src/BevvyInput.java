@@ -65,13 +65,12 @@ public class BevvyInput {
 		String timestamp = "";
 		Date date = null;
 		try {
-			System.out.println("Please enter the date and the time of consumption: ");
 	        timestamp = inputReader.readLine();
 	        //validates date input
 	        date = toDate(timestamp);
 	        Boolean isValid = date != null;
 	        while(!isValid){
-                System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY HH/MM): ");
+                System.out.println("Invalid format. Please enter the date and time in this format (DD/MM/YYYY HH/MM): ");
                 timestamp = inputReader.readLine();
                 date = toDate(timestamp);
                 isValid = date != null;
@@ -132,13 +131,12 @@ public class BevvyInput {
 	
 	private String readAmountUnits() {
 		String amount = "";
-		System.out.println("Please enter the amount consued (units)");
 		try {
 			amount = inputReader.readLine();
 	        //validates alcohol input
 	        Boolean isValid = isNumInputValid(amount);
 	        while(!isValid){
-	            System.out.println("Invalid, please enter the amount consumed (units): ");
+	            System.out.println("Invalid, please enter the amount in units: ");
 	            amount = inputReader.readLine();
 	            isValid = isNumInputValid(amount);
 	        }
@@ -173,6 +171,7 @@ public class BevvyInput {
 	}
 	
 	public DataEntry readEntry() {
+		System.out.println("Please enter the date and time of consumption: ");
 		Date date = readTimestamp();
 		String amount = readAmount();
 		DataEntry newEntry = new DataEntry(date, amount);
