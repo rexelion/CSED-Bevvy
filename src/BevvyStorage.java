@@ -62,6 +62,12 @@ public class BevvyStorage {
 		return newEntry;
 	}
 	
+	private Goal goalFromString(String line) {
+		String elements[] = line.split(",");
+		Goal newGoal = new Goal(elements[0], elements[1], elements[2], elements[3], elements[4]);
+		return newGoal;
+	}
+	
 	public List<DataEntry> readStorage() {
 		List<DataEntry> entries = new ArrayList<DataEntry>();
 		try {
@@ -84,5 +90,30 @@ public class BevvyStorage {
 		}
 		
 		return entries;
+	}
+	
+	public List<Goal> readGoalStorage() {
+		List<Goal> goals = new ArrayList<Goal>();
+		try {
+			reader = new BufferedReader(new FileReader(goalStorageFile));
+			String goalLine = null;
+			while ((goalLine = reader.readLine()) != null) {
+				Goal newGoal = goalFromString(goalLine);
+				goals.add(newGoal);
+			}
+		} catch (IOException io) {
+			System.out.println("Error reading goals from the file");
+			System.out.println(io);
+		} finally {
+			try {
+				reader.close();
+			} catch (IOException closeError) {
+				System.out.println("Error closing file stream");
+				System.out.println(closeError);
+			}
+		}
+		
+		
+		return goals;
 	}
 }
