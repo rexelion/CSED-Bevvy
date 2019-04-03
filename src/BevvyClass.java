@@ -35,6 +35,9 @@ public class BevvyClass {
 				System.out.println(entry.getDate() + " " + entry.getTime() + ": " + entry.getAmount());
 			}
 			break;
+		case 'G':
+			Goal newGoal = input.readGoal();
+			break;
 		default:
 			System.out.println("Unknown command");
 		}

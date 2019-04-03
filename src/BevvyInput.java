@@ -51,7 +51,7 @@ public class BevvyInput {
 	
 	public String readCommand() {
 		String command = "";
-		System.out.println("(A)dd data or (R)ead data");
+		System.out.println("(A)dd data, (R)ead data or add (G)oal");
 		try {
 			command = inputReader.readLine();
 		} catch (IOException io) {
@@ -78,8 +78,7 @@ public class BevvyInput {
             }
 		} catch (IOException io) {
 			
-		}
-		
+		}		
 		return date;
 	}
 	
@@ -178,6 +177,17 @@ public class BevvyInput {
 		String amount = readAmount();
 		DataEntry newEntry = new DataEntry(date, amount);
 		return newEntry;
+	}
+	
+	public Goal readGoal() {
+		System.out.println("Please enter the start date: ");
+		Date startDate = readTimestamp();
+		System.out.println("Please enter the end date: ");
+		Date endDate = readTimestamp();
+		System.out.println("Please enter the target amount in units: ");
+		String targetAmount = readAmountUnits();
+		Goal newGoal = new Goal(startDate, endDate, targetAmount);
+		return newGoal;
 	}
 	
 	public String readOption(String possibleOptions, String prompt) {
