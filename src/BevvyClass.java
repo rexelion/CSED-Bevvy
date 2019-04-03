@@ -39,6 +39,14 @@ public class BevvyClass {
 			Goal newGoal = input.readGoal();
 			storage.addGoal(newGoal);
 			break;
+		case 'V':
+			List<Goal> goals = storage.readGoalStorage();
+			for (Goal goal: goals) {
+				System.out.print(goal.getStartDate() + " " + goal.getStartTime() + " to ");
+				System.out.print(goal.getEndDate() + " " + goal.getEndTime() + ": ");
+				System.out.println(goal.getTotalAmount() + " units");
+			}
+			break;
 		default:
 			System.out.println("Unknown command");
 		}

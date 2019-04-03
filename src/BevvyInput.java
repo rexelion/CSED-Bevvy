@@ -51,7 +51,7 @@ public class BevvyInput {
 	
 	public String readCommand() {
 		String command = "";
-		System.out.println("(A)dd data, (R)ead data or add (G)oal");
+		System.out.println("(A)dd data, (R)ead data, add (G)oal or (V)iew goals");
 		try {
 			command = inputReader.readLine();
 		} catch (IOException io) {
