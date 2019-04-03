@@ -37,6 +37,7 @@ public class BevvyClass {
 			break;
 		case 'G':
 			Goal newGoal = input.readGoal();
+			storage.addGoal(newGoal);
 			break;
 		default:
 			System.out.println("Unknown command");

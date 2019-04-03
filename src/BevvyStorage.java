@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 public class BevvyStorage {
 	private String storageFile;
+	private String goalStorageFile;
 	
 	private BufferedWriter writer;
 	private BufferedReader reader;
 	
 	public BevvyStorage() {
 		storageFile = "storage.csv";
+		goalStorageFile = "goalStorage.csv";
 		writer = null;
 		reader = null;
 	}
@@ -22,6 +24,27 @@ public class BevvyStorage {
 			writer.write(newEntry.getAmount() + ",\n");
 		} catch (IOException io) {
 			System.out.println("Error writing new entry");
+			System.out.println(io);
+		} finally {
+			try {
+				writer.close();
+			} catch (IOException closeError) {
+				System.out.println("Error closing file stream");
+				System.out.println(closeError);
+			}
+		}
+	}
+	
+	public void addGoal(Goal newGoal) {
+		try {
+			writer = new BufferedWriter(new FileWriter(goalStorageFile, true));
+			writer.write(newGoal.getStartDate() + ",");
+			writer.write(newGoal.getStartTime() + ",");
+			writer.write(newGoal.getEndDate() + ",");
+			writer.write(newGoal.getEndTime() + ",");
+			writer.write(newGoal.getTotalAmount() + ",\n");
+		} catch (IOException io) {
+			System.out.println("Error writing new goal");
 			System.out.println(io);
 		} finally {
 			try {
