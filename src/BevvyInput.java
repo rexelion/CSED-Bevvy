@@ -73,6 +73,7 @@ public class BevvyInput {
 	        while(!isValid){
                 System.out.println("Invalid format. Please enter the date and time of consumption (DD/MM/YYYY HH/MM): ");
                 timestamp = inputReader.readLine();
+                date = toDate(timestamp);
                 isValid = date != null;
             }
 		} catch (IOException io) {
