@@ -35,6 +35,7 @@ public class BevvyStorage {
 	
 	private DataEntry fromString(String line) {
 		String elements[] = line.split(",");
+		System.out.println(elements[0] + " " + elements[1]);
 		DataEntry newEntry = new DataEntry(elements[0], elements[1], elements[2]);
 		return newEntry;
 	}
