@@ -2,16 +2,16 @@ import java.util.Comparator;
 
 public class DataEntryAmountComparator implements Comparator<DataEntry> {
     public int compare(DataEntry a, DataEntry b){
-        int amount1 = 0;
-        int amount2 = 0;
+        float amount1 = 0;
+        float amount2 = 0;
         try {
-            amount1 = Integer.parseInt(a.getAmount());
-            amount2 = Integer.parseInt(b.getAmount());
+            amount1 = Float.parseFloat(a.getAmount());
+            amount2 = Float.parseFloat(b.getAmount());
         } catch (NumberFormatException e) {
             return 0;
         }
 
-        return amount1 - amount2;
+        return (int)amount1 - (int)amount2;
 
     }
 
