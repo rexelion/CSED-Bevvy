@@ -448,7 +448,7 @@ public class BevvyGUI {
 					else {
 						int volume = Integer.parseInt(volAmount);
 						int percentage = Integer.parseInt(percentAmount);
-						float floatAmount = (float)((volume*percentage)/1000);
+						float floatAmount = ((float)(volume*percentage)/1000);
 						DecimalFormat df = new DecimalFormat();
 						df.setMaximumFractionDigits(1);
 						amount = Float.toString(floatAmount);
