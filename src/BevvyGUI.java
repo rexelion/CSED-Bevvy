@@ -439,7 +439,7 @@ public class BevvyGUI {
 			public void actionPerformed(ActionEvent e) {
 				if (!(!unitsAmount.equals(units[0]) && (!volAmount.equals(volumes[0]) || !percentAmount.equals(percents[0]))) && dateSelected && (!unitsAmount.equals(units[0]) || (!volAmount.equals(volumes[0]) && !percentAmount.equals(percents[0])) )) {
 					if (!unitsAmount.equals(units[0])) {
-						int unit = Integer.parseInt(unitsAmount);
+						float unit = Float.parseFloat(unitsAmount);
 						float floatAmount = (float)(unit);
 						DecimalFormat df = new DecimalFormat();
 						df.setMaximumFractionDigits(1);
