@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Goal {
 
-	final static String dateTimeFormat = "dd/MM/yyyy HH:mm";
+	final static String dateTimeFormat = "dd MMMMMMMMM yyyy hh:mma";
 	private SimpleDateFormat format;
 
 	private Date startDate;
@@ -28,6 +28,8 @@ public class Goal {
 	}
 	
 	public boolean dateInGoal(Date date) {
+		//System.out.print(startDate);
+		//error here, startDate is null
 		return (startDate.before(date)) && (endDate.after(date));
 	}
 	
