@@ -198,7 +198,7 @@ public class BevvyGUI {
 		
 		ar = storage.readStorage();
 		
-		int total = 0;
+		float total = 0;
 
 		for (DataEntry entry: ar) {
 			tempDateTime.add(entry.getDate() + " " + entry.getTime());
@@ -213,7 +213,7 @@ public class BevvyGUI {
 			diffInDays = (int)( (currentDate.getTime() - pastDate.getTime())
 			        / (1000 * 60 * 60 * 24) );
 			if (diffInDays < 7  && diffInDays > 0) {
-				total += Integer.parseInt(tempDayAmount.get(x));
+				total += Float.parseFloat(tempDayAmount.get(x));
 			}
 		}
 
@@ -223,14 +223,16 @@ public class BevvyGUI {
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		textArea.setFocusable(false);
-		int limit;
+		float limit;
 		
 		if (total > 14) {
 			limit = total-14;
-			textArea.setText(":( You have gone over the weekly limit of 14 units, you drank: "+total+" units this week, "+limit+" more than recommended.");
-		}else {
+			textArea.setText(":( You have gone over the weekly limit of 14 units, you drank "+total+" units this week, "+limit+" more than recommended.");
+		}else if (total < 14){
 			limit = 14-total;
-			textArea.setText(":) Congratulations, you are under the weekly limit of 14 units, you drank: "+total+" units this past week, you can safetly drink "+limit+" more to be within the recommended limit");
+			textArea.setText(":) Congratulations, you are under the weekly limit of 14 units, you drank "+total+" units this past week, you can safetly drink "+limit+" more to be within the recommended limit");
+		}else {
+			textArea.setText("You are at the recommended weekly limit for alcohol, please don't drink anymore today.");
 		}
 
 		exit = new JButton("Exit");
@@ -411,6 +413,8 @@ public class BevvyGUI {
 			        }
 			};
 			
+			
+			
 			backButton4 = new JButton("Back");
 			frame.add(table2);
 			scrollPane2 = new JScrollPane(table2, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -423,7 +427,6 @@ public class BevvyGUI {
 					backButton4.setVisible(false);
 					scrollPane2.setVisible(false);
 					model2.setColumnCount(0);
-
 					tempStartDates.clear();
 					tempStartTimes.clear();
 					tempEndDates.clear();
@@ -435,37 +438,30 @@ public class BevvyGUI {
 					endTimes = null;
 					unitGoals = null;
 					
-					drawMain();
+					drawGoals();
 				}
 			});
 			
 			readGoalsAdded = true;
 		}
 		
-		List<Goal> goals = storage.readGoalStorage();
-		for (Goal goal: goals) {
-			//System.out.println(goal.getStartDate());
-			String total = countConsumption(goal);
-			tempStartDates.add(goal.getStartDate());
-			tempStartTimes.add(goal.getStartTime());
-			tempEndDates.add(goal.getEndDate());
-			tempEndTimes.add(goal.getEndTime());
-			tempUnitsConsumed.add(total);
-			tempUnitGoals.add(goal.getTotalAmount());
-		}
 		
-		startDates = tempStartDates.toArray();
-		startTimes = tempStartTimes.toArray();
-		endDates = tempEndDates.toArray();
-		endTimes = tempEndTimes.toArray();
-		unitsConsumed = tempUnitsConsumed.toArray();
-		unitGoals = tempUnitGoals.toArray();
-		model2.addColumn("Start Date", startDates);
-		model2.addColumn("Start Time", startTimes);
-		model2.addColumn("End Date", endDates);
-		model2.addColumn("End Time", endTimes);
-		model2.addColumn("Units", unitsConsumed);
-		model2.addColumn("Units Goal", unitGoals);
+		table2.setVisible(false);
+		backButton4.setVisible(false);
+		scrollPane2.setVisible(false);
+		model2.setColumnCount(0);
+		tempStartDates.clear();
+		tempStartTimes.clear();
+		tempEndDates.clear();
+		tempEndTimes.clear();
+		tempUnitGoals.clear();
+		tempUnitsConsumed.clear();
+		startDates = null;
+		startTimes = null;
+		endDates = null;
+		endTimes = null;
+		unitGoals = null;
+		unitsConsumed = null;
 		
 		table2.setVisible(true);
 		scrollPane2.setVisible(true);
@@ -475,7 +471,7 @@ public class BevvyGUI {
 	public void addGoal() {
 		if(!drawCal2Added) {
 	        calFrame2.setTitle("Choose start and end date/time for goal");
-	        calFrame2.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        calFrame2.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	        calFrame2.setLayout(new FlowLayout());
 	        calFrame2.setResizable(false);
 	        calFrame2.setSize(new Dimension(550, 480));
@@ -530,7 +526,7 @@ public class BevvyGUI {
 				
 				if (!startDate.equals("") && !endDate.equals("") && !startTime.equals("") && !endTime.equals("") && unitChosen) {
 					if (!unitsGoal.equals(units[0]) && (start.compareTo(end) < 0)) {
-						Goal newGoal = new Goal(start, end, unitsGoal);
+						Goal newGoal = new Goal(start, end, unitsGoal, startDate, endDate, startTime, endTime);
 						storage.addGoal(newGoal);
 						calFrame2.setVisible(false);
 					}
@@ -561,7 +557,35 @@ public class BevvyGUI {
 			
 			readGoals.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					addGoal.setVisible(false);
+					readGoals.setVisible(false);
+					backButton3.setVisible(false);
 					readGoal();
+					
+					List<Goal> goals = storage.readGoalStorage();
+					for (Goal goal: goals) {
+						//System.out.println(goal.getStartDate());
+						String total = countConsumption(goal);
+						tempStartDates.add(goal.getStartDate());
+						tempStartTimes.add(goal.getStartTime());
+						tempEndDates.add(goal.getEndDate());
+						tempEndTimes.add(goal.getEndTime());
+						tempUnitsConsumed.add(total);
+						tempUnitGoals.add(goal.getTotalAmount());
+					}
+					
+					startDates = tempStartDates.toArray();
+					startTimes = tempStartTimes.toArray();
+					endDates = tempEndDates.toArray();
+					endTimes = tempEndTimes.toArray();
+					unitsConsumed = tempUnitsConsumed.toArray();
+					unitGoals = tempUnitGoals.toArray();
+					model2.addColumn("Start Date", startDates);
+					model2.addColumn("Start Time", startTimes);
+					model2.addColumn("End Date", endDates);
+					model2.addColumn("End Time", endTimes);
+					model2.addColumn("Units", unitsConsumed);
+					model2.addColumn("Units Goal", unitGoals);
 				}
 			});
 			
@@ -828,6 +852,8 @@ public class BevvyGUI {
 					inputPercent.setVisible(false);
 					chooseDate.setVisible(false);
 					drawMain();
+				}else {
+					JOptionPane.showMessageDialog(frame, "Data entered is invalid", "Invalid", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
