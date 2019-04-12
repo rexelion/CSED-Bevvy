@@ -4,55 +4,67 @@ import java.util.Date;
 
 public class Goal {
 
-	final static String dateTimeFormat = "dd/MM/yyyy HH:mm";
+	final static String dateTimeFormat = "dd MMMMMMMMM yyyy hh:mma";
 	private SimpleDateFormat format;
 
-	private Date startDate;
-	private Date endDate;
+	private Date startDateTime;
+	private Date endDateTime;
 	private String totalAmount;
+	private String startDate;
+	private String endDate;
+	private String startTime;
+	private String endTime;
 	
-	public Goal(Date startDate, Date endDate, String totalAmount) {
+	public Goal(Date startDateTime, Date endDateTime, String totalAmount, String startDate, String endDate, String startTime, String endTime) {
 		format = new SimpleDateFormat(dateTimeFormat);
+		this.startDateTime = startDateTime;
+		this.endDateTime = endDateTime;
+		this.totalAmount = totalAmount;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		this.totalAmount = totalAmount;
+		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 	
 	public Goal(String startDate, String startTime, String endDate, String endTime, String totalAmount) {
 		format = new SimpleDateFormat(dateTimeFormat);
 		try {
-			this.startDate = format.parse(startDate + " " + startTime);
-			this.endDate = format.parse(endDate + " " + endTime);
+			this.startDateTime = format.parse(startDate + " " + startTime);
+			this.endDateTime = format.parse(endDate + " " + endTime);
 		} catch (ParseException pe) {}
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		this.totalAmount = totalAmount; 
 	}
 	
 	public boolean dateInGoal(Date date) {
-		return (startDate.before(date)) && (endDate.after(date));
+		return (startDateTime.before(date)) && (endDateTime.after(date));
 	}
 	
 	public Date getStartDateTime() {
-		return startDate;
+		return startDateTime;
 	}
 	
 	public Date getEndDateTime() {
-		return endDate;
+		return endDateTime;
 	}
 	
 	public String getStartDate() {
-		return format.format(startDate).split(" ")[0];
+		return startDate;
 	}
 	
 	public String getStartTime() {
-		return format.format(startDate).split(" ")[1];
+		return startTime;
 	}
 	
 	public String getEndDate() {
-		return format.format(endDate).split(" ")[0];
+		return endDate;
 	}
 	
 	public String getEndTime() {
-		return format.format(endDate).split(" ")[1];
+		return endTime;
 	}
 	
 	public String getTotalAmount() {

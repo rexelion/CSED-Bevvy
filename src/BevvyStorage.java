@@ -6,6 +6,10 @@ public class BevvyStorage {
 	private String storageFile;
 	private String goalStorageFile;
 	
+	ArrayList<String> tempList = new ArrayList<String>();
+	
+	private boolean lineFound;
+	
 	private BufferedWriter writer;
 	private BufferedReader reader;
 	
@@ -14,6 +18,42 @@ public class BevvyStorage {
 		goalStorageFile = "goalStorage.csv";
 		writer = null;
 		reader = null;
+	}
+	
+	public void removeFromStorage(String line) {
+		try {
+			reader = new BufferedReader(new FileReader(storageFile));
+			lineFound = false;
+			String entryLine = null;
+			while ((entryLine = reader.readLine()) != null) {
+				if(!entryLine.equals(line)) {			
+					tempList.add(entryLine);
+				}
+				else if(entryLine.equals(line) && lineFound == true) {
+					tempList.add(entryLine);
+				}
+				else{
+					lineFound = true;
+				}
+			}
+			writer = new BufferedWriter(new FileWriter(storageFile, false));
+			writer.write("");
+			writer = new BufferedWriter(new FileWriter(storageFile, true));
+			for (int x = 0; x < tempList.size(); x++) {
+				writer.write(tempList.get(x) + "\n");
+			}
+			tempList.clear();
+		} catch (IOException io) {
+			System.out.println("Error writing new entry");
+			System.out.println(io);
+		} finally {
+			try {
+				writer.close();
+			} catch (IOException closeError) {
+				System.out.println("Error closing file stream");
+				System.out.println(closeError);
+			}
+		}
 	}
 	
 	public void addEntry(DataEntry newEntry) {
@@ -116,4 +156,5 @@ public class BevvyStorage {
 		
 		return goals;
 	}
+	
 }
