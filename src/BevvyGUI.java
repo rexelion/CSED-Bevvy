@@ -72,6 +72,7 @@ public class BevvyGUI {
 	JButton sortDate;
 	JButton sortAmount;
 	JButton removeRow;
+	JButton removeRow2;
 	JFormattedTextField inputDate;
 	JComboBox<String> inputUnits;
 	JComboBox<String> inputUnitsGoal;
@@ -151,7 +152,7 @@ public class BevvyGUI {
 	String[] volumes = { "Select volume (ml)", "0", "10", "20", "30", "40", "50", "100", "150", "200", "250", "300", "350", "400", "450", "500", "550", "600", "650", "700", "750", "800", "850", "900", "950", "1000", "1050", "1100"};
 	String[] percents = { "Select percentage", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"};
 	
-	int diffInDays;
+	float diffInDays;
 	
 	
 	public BevvyGUI() {
@@ -210,7 +211,9 @@ public class BevvyGUI {
 			try {
 				pastDate = formatter.parse(tempDateTime.get(x));
 			} catch (ParseException e) {}
-			diffInDays = (int)( (currentDate.getTime() - pastDate.getTime())
+			float currentDateFl = currentDate.getTime();
+			float pastDateFl = pastDate.getTime();
+			diffInDays = ((currentDateFl - pastDateFl)
 			        / (1000 * 60 * 60 * 24) );
 			if (diffInDays < 7  && diffInDays > 0) {
 				total += Float.parseFloat(tempDayAmount.get(x));
@@ -416,16 +419,25 @@ public class BevvyGUI {
 			
 			
 			backButton4 = new JButton("Back");
+			removeRow2 = new JButton("Remove");
 			frame.add(table2);
 			scrollPane2 = new JScrollPane(table2, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			frame.add(scrollPane2);
 			frame.add(backButton4);
+			frame.add(removeRow2);
+			
+			removeRow2.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					removeSelectedRows2(table2, "goalStorage.csv");
+				}
+			});
 			
 			backButton4.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					table2.setVisible(false);
 					backButton4.setVisible(false);
 					scrollPane2.setVisible(false);
+					removeRow2.setVisible(false);
 					model2.setColumnCount(0);
 					tempStartDates.clear();
 					tempStartTimes.clear();
@@ -466,6 +478,7 @@ public class BevvyGUI {
 		table2.setVisible(true);
 		scrollPane2.setVisible(true);
 		backButton4.setVisible(true);
+		removeRow2.setVisible(true);
 	}
 	
 	public void addGoal() {
@@ -531,6 +544,8 @@ public class BevvyGUI {
 						calFrame2.setVisible(false);
 					}
 					
+				}else {
+					JOptionPane.showMessageDialog(calFrame2, "Data entered is invalid", "Invalid", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});
@@ -729,7 +744,7 @@ public class BevvyGUI {
 			
 			removeRow.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					removeSelectedRows(table);
+					removeSelectedRows(table, "storage.csv");
 				}
 			});
 			
@@ -744,7 +759,7 @@ public class BevvyGUI {
 		removeRow.setVisible(true);
 	}
 	
-	public void removeSelectedRows(JTable table){
+	public void removeSelectedRows(JTable table, String file){
 		   DefaultTableModel model = (DefaultTableModel) this.table.getModel();
 		   int[] rows = table.getSelectedRows();
 		   for(int i=0;i<rows.length;i++){
@@ -753,7 +768,22 @@ public class BevvyGUI {
 		    	 line += model.getValueAt(rows[i]-i, x) + ","; 
 		     }
 		     model.removeRow(rows[i]-i);
-		     storage.removeFromStorage(line);
+		     storage.removeFromStorage(line, file);
+		   }
+		}
+	
+	public void removeSelectedRows2(JTable table, String file){
+		   DefaultTableModel model = (DefaultTableModel) this.table2.getModel();
+		   int[] rows = table.getSelectedRows();
+		   for(int i=0;i<rows.length;i++){
+		     String line = "";
+		     for (int x = 0; x < 4; x++) {
+		    	 line += model.getValueAt(rows[i]-i, x) + ","; 
+		     }
+		     line += model.getValueAt(rows[i]-i, 5) + ",";
+		     model.removeRow(rows[i]-i);
+		     System.out.println(line);
+		     storage.removeFromStorage(line, file);
 		   }
 		}
 	
@@ -840,7 +870,7 @@ public class BevvyGUI {
 					else {
 						int volume = Integer.parseInt(volAmount);
 						int percentage = Integer.parseInt(percentAmount);
-						float floatAmount = ((float)(volume*percentage)/1000);
+						float floatAmount = (float)((volume*percentage)/1000);
 						DecimalFormat df = new DecimalFormat();
 						df.setMaximumFractionDigits(1);
 						amount = Float.toString(floatAmount);
@@ -896,6 +926,8 @@ public class BevvyGUI {
 				if (!date.equals("") && !time.equals("")) {
 					dateSelected = true;
 					calFrame.setVisible(false);
+				}else {
+					JOptionPane.showMessageDialog(calFrame, "Data entered is invalid", "Invalid", JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		});

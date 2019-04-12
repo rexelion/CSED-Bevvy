@@ -20,9 +20,9 @@ public class BevvyStorage {
 		reader = null;
 	}
 	
-	public void removeFromStorage(String line) {
+	public void removeFromStorage(String line, String file) {
 		try {
-			reader = new BufferedReader(new FileReader(storageFile));
+			reader = new BufferedReader(new FileReader(file));
 			lineFound = false;
 			String entryLine = null;
 			while ((entryLine = reader.readLine()) != null) {
@@ -36,9 +36,9 @@ public class BevvyStorage {
 					lineFound = true;
 				}
 			}
-			writer = new BufferedWriter(new FileWriter(storageFile, false));
+			writer = new BufferedWriter(new FileWriter(file, false));
 			writer.write("");
-			writer = new BufferedWriter(new FileWriter(storageFile, true));
+			writer = new BufferedWriter(new FileWriter(file, true));
 			for (int x = 0; x < tempList.size(); x++) {
 				writer.write(tempList.get(x) + "\n");
 			}
