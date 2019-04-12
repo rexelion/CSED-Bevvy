@@ -563,6 +563,9 @@ public class BevvyGUI {
 					readGoal();
 					
 					List<Goal> goals = storage.readGoalStorage();
+					
+					BevvyCellRenderer renderer = new BevvyCellRenderer();
+					table2.setDefaultRenderer(Object.class, renderer);
 					for (Goal goal: goals) {
 						//System.out.println(goal.getStartDate());
 						String total = countConsumption(goal);
