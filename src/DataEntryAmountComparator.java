@@ -11,14 +11,7 @@ public class DataEntryAmountComparator implements Comparator<DataEntry> {
             return 0;
         }
 
-        float intermediate = amount1 - amount2;
-        if (intermediate > 0) {
-        	return 1;
-        } else if (intermediate == 0) {
-        	return 0;
-        } else {
-        	return -1;
-        }
+        return (int)(amount1 - amount2);
 
     }
 
