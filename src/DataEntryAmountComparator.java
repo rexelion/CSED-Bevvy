@@ -11,7 +11,13 @@ public class DataEntryAmountComparator implements Comparator<DataEntry> {
             return 0;
         }
 
-        return (int)(amount1 - amount2);
+        float diff = amount1 - amount2;
+        if (diff == 0)
+        	return 0;
+        else if (diff < 0)
+        	return -1;
+        else
+        	return 1;
 
     }
 
